@@ -1,0 +1,107 @@
+.main {
+    min-height: 100vh;
+    background-color: var(--color-fog-white);
+    padding-bottom: 80px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 24px;
+}
+
+.pageTitle {
+    font-size: 2rem;
+    margin-bottom: 32px;
+    color: var(--color-pacific-blue);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 32px;
+}
+
+.sectionTitle {
+    font-size: 1.25rem;
+    margin-bottom: 24px;
+    color: #333;
+}
+
+.formGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.paymentMethods {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.secureNotice {
+    margin-top: 16px;
+    font-size: 0.875rem;
+    color: #666;
+    text-align: center;
+}
+
+/* Summary */
+.hotelHeader {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.thumb {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    background-size: cover;
+    background-position: center;
+}
+
+.hotelName {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    margin-bottom: 4px;
+}
+
+.roomName {
+    font-size: 0.875rem;
+    color: #666;
+}
+
+.divider {
+    height: 1px;
+    background-color: #eee;
+    margin: 24px 0;
+}
+
+.priceTitle {
+    font-size: 1rem;
+    margin-bottom: 16px;
+}
+
+.lineItem {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 0.875rem;
+    color: #444;
+}
+
+.totalRow {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    font-size: 1.125rem;
+    color: var(--color-pacific-blue);
+}
+
+@media (max-width: 768px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
