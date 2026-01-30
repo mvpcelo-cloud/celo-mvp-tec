@@ -3,26 +3,21 @@ import { Button } from "@/components/ui/Button/Button";
 import { Card } from "@/components/ui/Card/Card";
 import styles from "./page.module.css";
 // import { prisma } from "@/lib/prisma"; // Uncomment when DB is ready
+import { prisma } from "@/lib/prisma";
+import { notFound } from "next/navigation";
 
 type Params = Promise<{ id: string }>;
 
 export default async function HotelDetails({ params }: { params: Params }) {
     const { id } = await params;
+    const hotel = await prisma.hotel.findUnique({
+        where: { id },
+        include: { rooms: true }
+    });
 
-    // Mock Data (Replace with Prisma query later)
-    const hotel = {
-        id,
-        name: "Hotel Mazatlán Royal",
-        description: "Experience the ultimate luxury in our oceanfront suites. Located in the heart of the Golden Zone, we offer premium amenities, a private beach club, and world-class dining.",
-        address: "Av. Camarón Sábalo 123, Zona Dorada",
-        rating: 4.8,
-        reviews: 124,
-        images: ["https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?q=80&w=2049&auto=format&fit=crop"],
-        rooms: [
-            { id: "r1", name: "Ocean View Suite", price: 150, capacity: 2, image: "https://images.unsplash.com/photo-1590490360182-137d62341e1d?q=80&w=2072&auto=format&fit=crop" },
-            { id: "r2", name: "Family Room", price: 220, capacity: 4, image: "https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=2074&auto=format&fit=crop" }
-        ]
-    };
+    if (!hotel) {
+        notFound();
+    }
 
     return (
         <main className={styles.main}>
@@ -45,7 +40,7 @@ export default async function HotelDetails({ params }: { params: Params }) {
                         <Card className={styles.infoCard}>
                             <div className={styles.ratingRow}>
                                 <span className={styles.stars}>★ {hotel.rating}</span>
-                                <span className={styles.reviewCount}>({hotel.reviews} reviews)</span>
+                                {/* <span className={styles.reviewCount}>({hotel.reviews} reviews)</span> */}
                             </div>
                             <h2 className={styles.sectionTitle}>About this stay</h2>
                             <p className={styles.description}>{hotel.description}</p>
@@ -61,7 +56,7 @@ export default async function HotelDetails({ params }: { params: Params }) {
                         <div className={styles.roomsList}>
                             {hotel.rooms.map(room => (
                                 <Card key={room.id} className={styles.roomCard} noPadding>
-                                    <div className={styles.roomImage} style={{ backgroundImage: `url(${room.image})` }} />
+                                    <div className={styles.roomImage} style={{ backgroundImage: `url(${room.images[0]})` }} />
                                     <div className={styles.roomContent}>
                                         <div className={styles.roomHeader}>
                                             <h3 className={styles.roomName}>{room.name}</h3>

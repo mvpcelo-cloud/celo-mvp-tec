@@ -1,0 +1,2 @@
+export const HOTEL_BOOKING_ADDRESS = "0x4070dd669B40CBFdDD5541C0109cEdcC8b83aCFE";
+export const CHAIN_ID = 11142220; // Celo Sepolia

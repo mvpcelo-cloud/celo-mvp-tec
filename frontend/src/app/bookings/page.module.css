@@ -1,0 +1,58 @@
+.main {
+    min-height: 100vh;
+    background-color: var(--color-fog-white);
+    padding-bottom: 80px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 24px;
+}
+
+.pageTitle {
+    font-size: 2rem;
+    margin-bottom: 32px;
+    color: var(--color-ink-black);
+}
+
+.connectState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 40px;
+    background: white;
+    border-radius: 8px;
+}
+
+.grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.bookingCard {
+    border-left: 4px solid var(--color-pacific-blue);
+}
+
+.bookingHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.statusBadge {
+    background: #e6fffa;
+    color: #2c7a7b;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.bookingBody p {
+    margin: 4px 0;
+    color: var(--color-deep-space);
+}

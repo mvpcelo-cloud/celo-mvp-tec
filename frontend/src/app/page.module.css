@@ -4,10 +4,9 @@
 }
 
 .hero {
-  height: 80vh;
+  height: 85vh;
   min-height: 600px;
-  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://images.unsplash.com/photo-1565622883395-566114eb91af?q=80&w=2070&auto=format&fit=crop');
-  /* Placeholder image of Mazatlán */
+  background: linear-gradient(rgba(10, 61, 98, 0.4), rgba(10, 61, 98, 0.2)), url('/images/hero-luxury.png');
   background-size: cover;
   background-position: center;
   display: flex;
@@ -60,7 +59,33 @@
 
 .searchAction {
   padding-bottom: 1px;
-  /* Visual alignment with inputs */
+}
+
+.filters {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.filterChip {
+  background: rgba(246, 185, 59, 0.1);
+  color: var(--color-pacific-blue);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-family: var(--font-ui);
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+
+.filterChip:hover,
+.filterChip.active {
+  background: var(--color-pacific-blue);
+  color: white;
 }
 
 /* Featured Section */

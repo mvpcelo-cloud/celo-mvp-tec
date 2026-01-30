@@ -3,8 +3,17 @@ import { Button } from "@/components/ui/Button/Button";
 import { Input } from "@/components/ui/Input/Input";
 import { Card } from "@/components/ui/Card/Card";
 import styles from "./page.module.css";
+import { prisma } from "@/lib/prisma"; // Direct server import
 
-export default function Home() {
+// Force dynamic rendering if needed, though default usually works
+export const dynamic = 'force-dynamic';
+
+export default async function Home() {
+  const hotels = await prisma.hotel.findMany({
+    take: 3,
+    orderBy: { rating: 'desc' }
+  });
+
   return (
     <main className={styles.main}>
       <Navbar />
@@ -30,6 +39,13 @@ export default function Home() {
                 <Button fullWidth size="lg">Search Hotels</Button>
               </div>
             </div>
+
+            {/* Quick Filters */}
+            <div className={styles.filters}>
+              {['Zona Dorada', 'Malecón', 'Centro Histórico', 'Marina', 'Pet Friendly'].map(filter => (
+                <span key={filter} className={styles.filterChip}>{filter}</span>
+              ))}
+            </div>
           </Card>
         </div>
       </section>
@@ -39,16 +55,19 @@ export default function Home() {
         <div className={styles.container}>
           <h2 className={styles.sectionTitle}>Featured Stays</h2>
           <div className={styles.grid}>
-            {[1, 2, 3].map((i) => (
-              <Card key={i} className={styles.hotelCard} noPadding>
-                <div className={styles.imagePlaceholder} />
+            {hotels.map((hotel) => (
+              <Card key={hotel.id} className={styles.hotelCard} noPadding>
+                <div
+                  className={styles.imagePlaceholder}
+                  style={{ backgroundImage: `url(${hotel.images[0]})` }}
+                />
                 <div className={styles.cardContent}>
                   <div className={styles.hotelHeader}>
-                    <h3 className={styles.hotelName}>Hotel Mazatlán Royal</h3>
-                    <span className={styles.price}>$120<small>/night</small></span>
+                    <h3 className={styles.hotelName}>{hotel.name}</h3>
+                    <span className={styles.price}>from $100<small>/night</small></span>
                   </div>
-                  <p className={styles.location}>Zona Dorada • 500m from beach</p>
-                  <div className={styles.rating}>★★★★★ 4.9 (120 reviews)</div>
+                  <p className={styles.location}>{hotel.address}</p>
+                  <div className={styles.rating}>★★★★★ {hotel.rating} (Review Count)</div>
                 </div>
               </Card>
             ))}

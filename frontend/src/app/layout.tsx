@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter, Montserrat } from "next/font/google";
+import { Web3Provider } from "@/providers/Web3Provider";
 import "./globals.css";
 
 // Configure Fonts
@@ -34,7 +35,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${playfair.variable} ${inter.variable} ${montserrat.variable}`}>
-        {children}
+        <Web3Provider>
+          {children}
+        </Web3Provider>
       </body>
     </html>
   );

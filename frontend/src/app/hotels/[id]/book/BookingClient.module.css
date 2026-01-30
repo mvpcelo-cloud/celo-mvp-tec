@@ -1,0 +1,40 @@
+.container {
+    margin-top: 24px;
+}
+
+.connectWrapper {
+    display: flex;
+    justify-content: center;
+    padding: 16px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+}
+
+.payButton {
+    background-color: var(--color-pacific-blue);
+    color: white;
+    font-weight: bold;
+}
+
+.payButton:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.error {
+    color: #e53e3e;
+    font-size: 0.875rem;
+    margin-top: 8px;
+    text-align: center;
+}
+
+.successMessage {
+    margin-top: 16px;
+    padding: 12px;
+    background-color: #f0fff4;
+    border: 1px solid #c6f6d5;
+    border-radius: 6px;
+    color: #2f855a;
+    text-align: center;
+    font-size: 0.875rem;
+}

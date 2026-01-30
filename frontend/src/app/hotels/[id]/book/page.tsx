@@ -2,21 +2,33 @@ import { Navbar } from "@/components/layout/Navbar/Navbar";
 import { Button } from "@/components/ui/Button/Button";
 import { Card } from "@/components/ui/Card/Card";
 import { Input } from "@/components/ui/Input/Input";
+// import { ConnectButton } from '@rainbow-me/rainbowkit'; // Moved to Client Component
 import styles from "./page.module.css";
+import { prisma } from "@/lib/prisma";
+import { notFound } from "next/navigation";
+import { BookingClient } from "./BookingClient";
 
 type Params = Promise<{ id: string }>;
 
 export default async function BookingPage({ params }: { params: Params }) {
     const { id } = await params;
 
-    // Mock Hotel Data
-    const hotel = {
-        id,
-        name: "Hotel Mazatlán Royal",
-        roomName: "Ocean View Suite",
-        pricePerNight: 150,
-        hotelImage: "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?q=80&w=2049&auto=format&fit=crop"
-    };
+    // Fetch Room Data (Room is connected to Hotel via ID)
+    // Actually we need to fetch Hotel AND Room info. 
+    // The URL structure is /hotels/[id]/book, but we need to know WHICH room.
+    // For MVP simplicity, we will assume user selected the *first* room or pass ?roomId query param.
+    // Let's just fetch the Hotel and its first room for demo.
+
+    const hotel = await prisma.hotel.findUnique({
+        where: { id },
+        include: { rooms: true }
+    });
+
+    if (!hotel || hotel.rooms.length === 0) {
+        notFound();
+    }
+
+    const room = hotel.rooms[0]; // Logic simplification for MVP
 
     return (
         <main className={styles.main}>
@@ -38,8 +50,11 @@ export default async function BookingPage({ params }: { params: Params }) {
 
                             <h2 className={styles.sectionTitle} style={{ marginTop: '32px' }}>Payment</h2>
                             <div className={styles.paymentMethods}>
-                                <Button variant="outline" className={styles.paymentBtn} fullWidth>Credit Card</Button>
-                                <Button variant="outline" className={styles.paymentBtn} fullWidth>Celo Dollar (cUSD)</Button>
+                                {/* <Button variant="outline" className={styles.paymentBtn} fullWidth>Credit Card (Disabled)</Button> */}
+                                <div className={styles.connectWrapper}>
+                                    {/* Client Component Handles Connection & Transaction */}
+                                    <BookingClient roomId={room.id} price={room.price} />
+                                </div>
                             </div>
                             <p className={styles.secureNotice}>🔒 Payments are secure and encrypted</p>
                         </Card>
@@ -49,10 +64,10 @@ export default async function BookingPage({ params }: { params: Params }) {
                     <div className={styles.summarySection}>
                         <Card className={styles.summaryCard}>
                             <div className={styles.hotelHeader}>
-                                <div className={styles.thumb} style={{ backgroundImage: `url(${hotel.hotelImage})` }} />
+                                <div className={styles.thumb} style={{ backgroundImage: `url(${hotel.images[0]})` }} />
                                 <div>
                                     <h3 className={styles.hotelName}>{hotel.name}</h3>
-                                    <p className={styles.roomName}>{hotel.roomName}</p>
+                                    <p className={styles.roomName}>{room.name}</p>
                                 </div>
                             </div>
 
@@ -60,8 +75,8 @@ export default async function BookingPage({ params }: { params: Params }) {
 
                             <h4 className={styles.priceTitle}>Price Details</h4>
                             <div className={styles.lineItem}>
-                                <span>${hotel.pricePerNight} x 3 nights</span>
-                                <span>${hotel.pricePerNight * 3}</span>
+                                <span>{room.price} CELO x 1 night</span>
+                                <span>{room.price} CELO</span>
                             </div>
                             <div className={styles.lineItem}>
                                 <span>Service Fee</span>
@@ -75,13 +90,13 @@ export default async function BookingPage({ params }: { params: Params }) {
                             <div className={styles.divider} />
 
                             <div className={styles.totalRow}>
-                                <span>Total (USD)</span>
-                                <span>${(hotel.pricePerNight * 3) + 45 + 30}</span>
+                                <span>Total (CELO)</span>
+                                <span>{room.price} CELO</span>
                             </div>
 
-                            <Button size="lg" fullWidth style={{ marginTop: '24px' }}>
+                            {/* <Button size="lg" fullWidth style={{ marginTop: '24px' }}>
                                 Confirm & Pay
-                            </Button>
+                            </Button> */ }
                         </Card>
                     </div>
                 </div>
